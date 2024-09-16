@@ -18,6 +18,7 @@ function App() {
       lobbyList={lobbyList}
       gameState={gameState}
     >
+      <LobbyScreen />
     </AppDataProvider>
   );
 }
