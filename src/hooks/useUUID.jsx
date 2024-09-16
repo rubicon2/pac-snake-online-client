@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function useUUID(socket) {
-  const [uuid, setUuid] = useState('default-uuid');
+  const [uuid, setUuid] = useState(null);
 
   useEffect(() => {
     if (socket) {
