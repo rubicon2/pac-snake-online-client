@@ -5,6 +5,7 @@ export default function useLobbyList(socket) {
 
   useEffect(() => {
     if (socket) {
+      socket.emit('lobby_list_update_requested');
       socket.on('lobby_list_updated', (updatedLobbyList) => {
         setLobbyList(updatedLobbyList);
       });
