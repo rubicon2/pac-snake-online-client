@@ -9,10 +9,7 @@ export default function LobbyScreen() {
   const socket = useContext(SocketContext);
   const uuid = useContext(UUIDContext);
 
-  const playerLobby = lobbyList.find((lobby) =>
-    Object.keys(lobby.players).includes(uuid),
-  );
-  const player = playerLobby ? playerLobby.players[uuid] : null;
+  const lobbyArray = Object.values(lobbyList);
 
   function handleNameSubmit(event) {
     event.preventDefault();
@@ -64,7 +61,7 @@ export default function LobbyScreen() {
         </form>
       </div>
       <ul>
-        {lobbyList.map((lobby) => (
+        {lobbyArray.map((lobby) => (
           <li key={lobby.lobby_name}>
             <LobbyDetails lobby={lobby} />
           </li>
