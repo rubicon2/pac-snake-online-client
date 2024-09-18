@@ -5,7 +5,6 @@ import useLobbyList from './hooks/useLobbyList';
 import AppDataProvider from './components/AppDataProvider';
 import LobbyScreen from './components/LobbyScreen';
 import GameScreen from './components/GameScreen';
-import './App.css';
 
 function App() {
   const socket = useSocket(import.meta.env.VITE_SERVER_URL);
