@@ -3,6 +3,7 @@ import UUIDContext from '../../contexts/UUIDContext';
 import SocketContext from '../../contexts/SocketContext';
 import LobbyListContext from '../../contexts/LobbyListContext';
 import LobbyDetails from '../LobbyDetails';
+import Messages from '../Messages';
 
 export default function LobbyScreen() {
   const lobbyList = useContext(LobbyListContext);
@@ -67,6 +68,7 @@ export default function LobbyScreen() {
           </li>
         ))}
       </ul>
+      <Messages />
     </div>
   );
 }
