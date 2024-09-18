@@ -1,7 +1,6 @@
 import useSocket from './hooks/useSocket';
 import useUUID from './hooks/useUUID';
 import useClientMetadata from './hooks/useClientMetadata';
-import useGameState from './hooks/useGameState';
 import useLobbyList from './hooks/useLobbyList';
 import AppDataProvider from './components/AppDataProvider';
 import LobbyScreen from './components/LobbyScreen';
@@ -12,7 +11,8 @@ function App() {
   const socket = useSocket(import.meta.env.VITE_SERVER_URL);
   const uuid = useUUID(socket);
   const clientMetadata = useClientMetadata(socket, uuid);
-  const gameState = useGameState(socket);
+
+  // Can move this to LobbyScreen later probably, as the game screen doesn't care about the lobby info.
   const lobbyList = useLobbyList(socket);
 
   let isPlayerInRunningGame = false;
@@ -25,13 +25,12 @@ function App() {
   }
 
   return (
-    <AppDataProvider
-      socket={socket}
-      uuid={uuid}
-      lobbyList={lobbyList}
-      gameState={gameState}
-    >
-      {isPlayerInRunningGame ? <GameScreen /> : <LobbyScreen />}
+    <AppDataProvider socket={socket} uuid={uuid} lobbyList={lobbyList}>
+      {isPlayerInRunningGame ? (
+        <GameScreen lobbyName={clientMetadata.lobby} />
+      ) : (
+        <LobbyScreen />
+      )}
     </AppDataProvider>
   );
 }
