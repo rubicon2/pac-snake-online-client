@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import UUIDContext from '../../contexts/UUIDContext';
 import SocketContext from '../../contexts/SocketContext';
 import LobbyListContext from '../../contexts/LobbyListContext';
+import CenteredContainer from '../CenteredContainer';
 import LobbyDetails from '../LobbyDetails';
 import Messages from '../Messages';
 
@@ -39,7 +40,7 @@ export default function LobbyScreen() {
   }
 
   return (
-    <div>
+    <CenteredContainer>
       <h1>Pac-Snake Online</h1>
       <div>
         <button type="button" onClick={handleReady}>
@@ -69,6 +70,6 @@ export default function LobbyScreen() {
         ))}
       </ul>
       <Messages />
-    </div>
+    </CenteredContainer>
   );
 }
