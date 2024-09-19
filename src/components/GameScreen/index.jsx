@@ -63,6 +63,7 @@ export default function GameScreen() {
       }
     });
 
+    // Stop listening for keyboard input on unmount, i.e. when game ends.
     return () => removeEventListener('keydown', handleInput);
   }, [socket]);
 
