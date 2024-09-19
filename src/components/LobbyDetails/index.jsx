@@ -1,7 +1,26 @@
-import { useContext } from 'react';
 import LobbyPlayers from '../LobbyPlayers';
 import SocketContext from '../../contexts/SocketContext';
 import UUIDContext from '../../contexts/UUIDContext';
+import SpacedFlexContainer from '../SpacedFlexContainer';
+import LobbyButton from '../LobbyButton';
+
+import { useContext } from 'react';
+import styled from 'styled-components';
+
+const LobbyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const LobbyName = styled.h2`
+  margin: 0;
+`;
+
+const LobbyStatus = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export default function LobbyDetails({ lobby }) {
   const socket = useContext(SocketContext);
@@ -30,36 +49,32 @@ export default function LobbyDetails({ lobby }) {
   }
 
   return (
-    <div>
-      <h2>{lobby_name}</h2>
-      <p>
-        {player_count}/4 -{' '}
-        {lobby_state !== 'lobby'
-          ? 'RUNNING'
-          : player_count === 4
-            ? 'NOT JOINABLE'
-            : 'JOINABLE'}
-      </p>
+    <LobbyContainer>
+      <LobbyName>{lobby_name}</LobbyName>
+      <LobbyStatus>
+        <div>
+          {player_count}/4 -{' '}
+          {lobby_state !== 'lobby'
+            ? 'RUNNING'
+            : player_count === 4
+              ? 'NOT JOINABLE'
+              : 'JOINABLE'}
+        </div>
+        <SpacedFlexContainer>
+          {playerIsInLobby ? (
+            <LobbyButton onClick={handleLobbyLeave}>Leave</LobbyButton>
+          ) : (
+            <LobbyButton onClick={handleLobbyJoin}>Join</LobbyButton>
+          )}
+          <LobbyButton onClick={handleLobbyDelete} disabled={player_count > 0}>
+            Close
+          </LobbyButton>
+          <LobbyButton onClick={handleSpeedChange}>
+            {lobby_speed.name}
+          </LobbyButton>
+        </SpacedFlexContainer>
+      </LobbyStatus>
       <LobbyPlayers players={players} />
-      {playerIsInLobby ? (
-        <button type="button" onClick={handleLobbyLeave}>
-          Leave
-        </button>
-      ) : (
-        <button type="button" onClick={handleLobbyJoin}>
-          Join
-        </button>
-      )}
-      <button
-        type="button"
-        onClick={handleLobbyDelete}
-        disabled={player_count > 0}
-      >
-        Close
-      </button>
-      <button type="button" onClick={handleSpeedChange}>
-        {lobby_speed.name}
-      </button>
-    </div>
+    </LobbyContainer>
   );
 }

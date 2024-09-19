@@ -1,10 +1,37 @@
-import { useContext } from 'react';
 import UUIDContext from '../../contexts/UUIDContext';
 import SocketContext from '../../contexts/SocketContext';
 import LobbyListContext from '../../contexts/LobbyListContext';
+
 import CenteredContainer from '../CenteredContainer';
+import SpacedFlexContainer from '../SpacedFlexContainer';
+import VerticalSeparator from '../VerticalSeparator';
 import LobbyDetails from '../LobbyDetails';
+import LobbyButton from '../LobbyButton';
 import Messages from '../Messages';
+
+import { useContext } from 'react';
+import styled from 'styled-components';
+
+const SpacedVerticalFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const LobbyList = styled.ul`
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Input = styled.input`
+  font-size: 1rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.5em;
+`;
 
 export default function LobbyScreen() {
   const lobbyList = useContext(LobbyListContext);
@@ -42,33 +69,38 @@ export default function LobbyScreen() {
   return (
     <CenteredContainer>
       <h1>Pac-Snake Online</h1>
-      <div>
-        <button type="button" onClick={handleReady}>
-          Ready
-        </button>
-        <button type="button" onClick={handleNotReady}>
-          Not Ready
-        </button>
-      </div>
-      <div>
-        <form onSubmit={handleNameSubmit}>
-          <label htmlFor="client-name">Player:</label>
-          <input id="client-name" name="client_name" />
-          <button type="submit">Set Name</button>
-        </form>
-        <form onSubmit={handleLobbySubmit}>
-          <label htmlFor="lobby-name">Lobby:</label>
-          <input id="lobby-name" name="lobby_name" />
-          <button type="submit">Create Lobby</button>
-        </form>
-      </div>
-      <ul>
-        {lobbyArray.map((lobby) => (
-          <li key={lobby.lobby_name}>
-            <LobbyDetails lobby={lobby} />
-          </li>
+      <SpacedVerticalFlex>
+        <SpacedFlexContainer>
+          <LobbyButton onClick={handleReady}>Ready</LobbyButton>
+          <LobbyButton onClick={handleNotReady}>Not Ready</LobbyButton>
+        </SpacedFlexContainer>
+        <SpacedVerticalFlex>
+          <form onSubmit={handleNameSubmit}>
+            <SpacedFlexContainer>
+              <label htmlFor="client-name">Player:</label>
+              <Input id="client-name" name="client_name" />
+              <LobbyButton type="submit">Set Name</LobbyButton>
+            </SpacedFlexContainer>
+          </form>
+          <form onSubmit={handleLobbySubmit}>
+            <SpacedFlexContainer>
+              <label htmlFor="lobby-name">Lobby:</label>
+              <Input id="lobby-name" name="lobby_name" />
+              <LobbyButton type="submit">Create Lobby</LobbyButton>
+            </SpacedFlexContainer>
+          </form>
+        </SpacedVerticalFlex>
+      </SpacedVerticalFlex>
+      <LobbyList>
+        {lobbyArray.map((lobby, index) => (
+          <>
+            <li key={lobby.lobby_name}>
+              <LobbyDetails lobby={lobby} />
+            </li>
+            <VerticalSeparator />
+          </>
         ))}
-      </ul>
+      </LobbyList>
       <Messages />
     </CenteredContainer>
   );
