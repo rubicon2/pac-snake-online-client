@@ -1,8 +1,14 @@
 import SocketContext from '../../contexts/SocketContext';
 import UUIDContext from '../../contexts/UUIDContext';
 import useGameState from '../../hooks/useGameState';
+
 import Food from '../Food';
 import Snake from '../Snake';
+import GameOverlay from '../GameOverlay';
+import GameOverlayHeading from '../GameOverlayHeading';
+import GameOverText from '../GameOverText';
+import RandomisedColorText from '../RandomisedColorText';
+
 import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -81,7 +87,29 @@ export default function GameScreen({ lobbyName }) {
         {Object.values(gameState.players).map((player, index) => (
           <Snake key={index} cellSize={CELL_SIZE} player={player} />
         ))}
-        {/* Draw any overlays. */}
+        {gameState.state === 'countdown' && (
+          <GameOverlay>
+            <GameOverlayHeading>{gameState.countdownValue}</GameOverlayHeading>
+          </GameOverlay>
+        )}
+        {gameState.state === 'round_over' && (
+          <GameOverlay>
+            <GameOverlayHeading>
+              <RandomisedColorText
+                color={
+                  Object.values(gameState.players).find(
+                    (player) => player.name === gameState.lastRoundWinner,
+                  ).color
+                }
+                text={gameState.lastRoundWinner.toUpperCase()}
+              />
+              {' WON THE ROUND'}
+            </GameOverlayHeading>
+          </GameOverlay>
+        )}
+        {gameState.state === 'game_over' && (
+          <GameOverText gameState={gameState} />
+        )}
       </GameArea>
     </Container>
   );
