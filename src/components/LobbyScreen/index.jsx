@@ -78,14 +78,14 @@ export default function LobbyScreen() {
           <form onSubmit={handleNameSubmit}>
             <SpacedFlexContainer>
               <label htmlFor="client-name">Player:</label>
-              <Input id="client-name" name="client_name" />
+              <Input id="client-name" name="client_name" autoComplete="off" />
               <LobbyButton type="submit">Set Name</LobbyButton>
             </SpacedFlexContainer>
           </form>
           <form onSubmit={handleLobbySubmit}>
             <SpacedFlexContainer>
               <label htmlFor="lobby-name">Lobby:</label>
-              <Input id="lobby-name" name="lobby_name" />
+              <Input id="lobby-name" name="lobby_name" autoComplete="off" />
               <LobbyButton type="submit">Create Lobby</LobbyButton>
             </SpacedFlexContainer>
           </form>
