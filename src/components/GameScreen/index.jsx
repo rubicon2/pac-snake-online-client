@@ -27,7 +27,7 @@ const GameArea = styled.div`
 
 const CELL_SIZE = 80;
 
-export default function GameScreen({ lobbyName }) {
+export default function GameScreen() {
   const socket = useContext(SocketContext);
   const uuid = useContext(UUIDContext);
   const gameState = useGameState(socket);

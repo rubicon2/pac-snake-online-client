@@ -25,11 +25,7 @@ function App() {
 
   return (
     <AppDataProvider socket={socket} uuid={uuid} lobbyList={lobbyList}>
-      {isPlayerInRunningGame ? (
-        <GameScreen lobbyName={clientMetadata.lobby} />
-      ) : (
-        <LobbyScreen />
-      )}
+      {isPlayerInRunningGame ? <GameScreen /> : <LobbyScreen />}
     </AppDataProvider>
   );
 }
