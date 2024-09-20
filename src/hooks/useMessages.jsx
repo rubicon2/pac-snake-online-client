@@ -18,7 +18,7 @@ export default function useMessages(socket) {
         // Limit to five messages.
         while (existingMessages.current.length > 5)
           existingMessages.current.pop();
-        setMessages(existingMessages.current);
+        setMessages([...existingMessages.current]);
       });
     }
   }, [socket]);
