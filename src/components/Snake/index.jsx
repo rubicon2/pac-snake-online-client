@@ -1,4 +1,5 @@
-import { randomiseRGBA, RGBAToString } from '../../rgba';
+import { RGBAToString, generateRandomisedRGBAStrings } from '../../rgba';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const SnakeChunk = styled.div.attrs((props) => ({
@@ -28,8 +29,15 @@ const SnakeHead = styled(SnakeChunk)`
 `;
 
 export default function Snake({ cellSize, player }) {
+  const [colors, setColors] = useState([]);
   const { color, snake } = player;
   const { headX, headY, dir, isAlive, chunks } = snake;
+
+  // Generate colors only when the color changes, i.e. when a game starts.
+  useEffect(() => {
+    setColors(generateRandomisedRGBAStrings(color));
+  }, [RGBAToString(color)]);
+
   return (
     <>
       {isAlive &&
@@ -41,7 +49,7 @@ export default function Snake({ cellSize, player }) {
               $x={chunk.x}
               $y={chunk.y}
               $dir={dir}
-              $color={RGBAToString(randomiseRGBA(color))}
+              $color={colors[Math.floor((colors.length - 1) * Math.random())]}
             />
           ) : (
             <SnakeChunk
@@ -49,7 +57,7 @@ export default function Snake({ cellSize, player }) {
               $cellSize={cellSize}
               $x={chunk.x}
               $y={chunk.y}
-              $color={RGBAToString(randomiseRGBA(color))}
+              $color={colors[Math.floor((colors.length - 1) * Math.random())]}
             />
           ),
         )}
