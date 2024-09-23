@@ -93,6 +93,11 @@ export default function GameScreen() {
             <GameOverlayHeading>{gameState.countdownValue}</GameOverlayHeading>
           </GameOverlay>
         )}
+        {gameState.state === 'round_failed' && (
+          <GameOverlay>
+            <GameOverlayHeading>NO ONE WON THE ROUND!</GameOverlayHeading>
+          </GameOverlay>
+        )}
         {gameState.state === 'round_over' && (
           <GameOverlay>
             <GameOverlayHeading>
