@@ -39,7 +39,7 @@ export default function GameScreen() {
     }
 
     addEventListener('keydown', (event) => {
-      const { key } = event;
+      const key = event.key.toLowerCase();
       switch (key) {
         case 'w': {
           handleInput('up');
