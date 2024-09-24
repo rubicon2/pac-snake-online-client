@@ -1,6 +1,7 @@
 import UUIDContext from '../../contexts/UUIDContext';
 import SocketContext from '../../contexts/SocketContext';
 import LobbyListContext from '../../contexts/LobbyListContext';
+import useClientMetadata from '../../hooks/useClientMetadata';
 
 import CenteredContainer from '../CenteredContainer';
 import SpacedFlexContainer from '../SpacedFlexContainer';
@@ -57,6 +58,7 @@ export default function LobbyScreen() {
   const lobbyList = useContext(LobbyListContext);
   const socket = useContext(SocketContext);
   const uuid = useContext(UUIDContext);
+  const clientMetadata = useClientMetadata(socket, uuid);
 
   const lobbyArray = Object.values(lobbyList);
 
@@ -92,6 +94,11 @@ export default function LobbyScreen() {
       <Flex>
         <Instructions />
         <PlayerDetails>
+          <h2>
+            {clientMetadata?.name
+              ? `Hey, ${clientMetadata.name}!`
+              : 'Enter a name and join a lobby!'}
+          </h2>
           <SpacedVerticalFlex>
             <SpacedFlexContainer>
               <LobbyButton onClick={handleReady}>Ready</LobbyButton>
