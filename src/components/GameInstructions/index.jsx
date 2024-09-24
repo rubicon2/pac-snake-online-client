@@ -15,7 +15,7 @@ const List = styled.ul`
 export default function Instructions() {
   return (
     <Container>
-      <Title as={'h2'}>Instructions</Title>
+      <Title as={'h2'}>How to Play</Title>
       <List>
         <li>To move, use WASD.</li>
         <li>
@@ -26,7 +26,7 @@ export default function Instructions() {
         <li>The first player to win 3 rounds wins the game!</li>
         <li>Eat food to grow your snake.</li>
         <li>In a head on collision, the longest snake will win.</li>
-        <li>Scoff food, become a beast, destroy your foes!</li>
+        <li>Scoff food, become a beast, and hunt your foes!</li>
       </List>
     </Container>
   );
