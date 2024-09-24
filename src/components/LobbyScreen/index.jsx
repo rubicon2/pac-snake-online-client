@@ -5,6 +5,7 @@ import LobbyListContext from '../../contexts/LobbyListContext';
 import CenteredContainer from '../CenteredContainer';
 import SpacedFlexContainer from '../SpacedFlexContainer';
 import VerticalSeparator from '../VerticalSeparator';
+import Instructions from '../GameInstructions';
 import LobbyDetails from '../LobbyDetails';
 import LobbyButton from '../LobbyButton';
 import Messages from '../Messages';
@@ -16,6 +17,8 @@ const SpacedVerticalFlex = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  justify-content: end;
+  align-items: end;
 `;
 
 const LobbyList = styled.ul`
@@ -31,6 +34,23 @@ const Input = styled.input`
   border: 1px solid black;
   border-radius: 5px;
   padding: 0.5em;
+`;
+
+const GameTitle = styled.h1`
+  margin: 0;
+  padding: 1rem 0;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const PlayerDetails = styled.div`
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export default function LobbyScreen() {
@@ -68,29 +88,38 @@ export default function LobbyScreen() {
 
   return (
     <CenteredContainer>
-      <h1>Pac-Snake Online</h1>
-      <SpacedVerticalFlex>
-        <SpacedFlexContainer>
-          <LobbyButton onClick={handleReady}>Ready</LobbyButton>
-          <LobbyButton onClick={handleNotReady}>Not Ready</LobbyButton>
-        </SpacedFlexContainer>
-        <SpacedVerticalFlex>
-          <form onSubmit={handleNameSubmit}>
+      <GameTitle>Pac-Snake Online</GameTitle>
+      <Flex>
+        <Instructions />
+        <PlayerDetails>
+          <SpacedVerticalFlex>
             <SpacedFlexContainer>
-              <label htmlFor="client-name">Player:</label>
-              <Input id="client-name" name="client_name" autoComplete="off" />
-              <LobbyButton type="submit">Set Name</LobbyButton>
+              <LobbyButton onClick={handleReady}>Ready</LobbyButton>
+              <LobbyButton onClick={handleNotReady}>Not Ready</LobbyButton>
             </SpacedFlexContainer>
-          </form>
-          <form onSubmit={handleLobbySubmit}>
-            <SpacedFlexContainer>
-              <label htmlFor="lobby-name">Lobby:</label>
-              <Input id="lobby-name" name="lobby_name" autoComplete="off" />
-              <LobbyButton type="submit">Create Lobby</LobbyButton>
-            </SpacedFlexContainer>
-          </form>
-        </SpacedVerticalFlex>
-      </SpacedVerticalFlex>
+            <SpacedVerticalFlex>
+              <form onSubmit={handleNameSubmit}>
+                <SpacedFlexContainer>
+                  <label htmlFor="client-name">Player:</label>
+                  <Input
+                    id="client-name"
+                    name="client_name"
+                    autoComplete="off"
+                  />
+                  <LobbyButton type="submit">Set Name</LobbyButton>
+                </SpacedFlexContainer>
+              </form>
+              <form onSubmit={handleLobbySubmit}>
+                <SpacedFlexContainer>
+                  <label htmlFor="lobby-name">Lobby:</label>
+                  <Input id="lobby-name" name="lobby_name" autoComplete="off" />
+                  <LobbyButton type="submit">Create Lobby</LobbyButton>
+                </SpacedFlexContainer>
+              </form>
+            </SpacedVerticalFlex>
+          </SpacedVerticalFlex>
+        </PlayerDetails>
+      </Flex>
       <LobbyList>
         {lobbyArray.map((lobby, index) => (
           <>
