@@ -10,17 +10,23 @@ export default function useMessages(socket) {
   // the useEffect runs again. Have used a ref to get around this, to get the latest value, but setMessages is still required
   // for the dependent components to rerender with the new message. This is clunky and dodgy and there must be a better way to do it.
   useEffect(() => {
-    if (socket) {
-      socket.on('message_received', (message) => {
-        const time = new Date(Date.now()).toLocaleTimeString();
-        const newMessage = `${time} - ${message}`;
-        existingMessages.current.unshift(newMessage);
-        // Limit to five messages.
-        while (existingMessages.current.length > 5)
-          existingMessages.current.pop();
-        setMessages([...existingMessages.current]);
-      });
+    function addMessage(message) {
+      const time = new Date(Date.now()).toLocaleTimeString();
+      const newMessage = `${time} - ${message}`;
+      existingMessages.current.unshift(newMessage);
+      // Limit to five messages.
+      while (existingMessages.current.length > 5)
+        existingMessages.current.pop();
+      setMessages([...existingMessages.current]);
     }
+
+    if (socket) {
+      socket.on('message_received', addMessage);
+    }
+
+    return () => {
+      if (socket) socket.off('message_received', addMessage);
+    };
   }, [socket]);
 
   return messages;
