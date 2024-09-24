@@ -20,6 +20,7 @@ const Container = styled.div`
 
 const GameArea = styled.div`
   position: relative;
+  isolation: isolate;
   background-color: black;
   width: ${(props) => `${props.$cellSize * props.$gridSize}px`};
   height: ${(props) => `${props.$cellSize * props.$gridSize}px`};

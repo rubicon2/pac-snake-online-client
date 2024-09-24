@@ -1,6 +1,24 @@
 import { RGBAToString, generateRandomisedRGBAStrings } from '../../rgba';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const DeadAnim = keyframes`
+  0% { opacity: 1; }
+  10% { background-color: red; }
+  30% { background-color: orangered; }
+  40% { background-color: white; }
+  50% { background-color: darkblue; }
+  100% { opacity: 0; }
+`;
+
+const VibrateAnim = keyframes`
+  from { scale: 0.8; }
+  to { scale: 1.1; }
+`;
+
+const deadAnims = (props) => css`
+  ${DeadAnim} 500ms linear infinite, ${VibrateAnim} 40ms infinite alternate;
+`;
 
 const SnakeChunk = styled.div.attrs((props) => ({
   style: {
@@ -12,6 +30,8 @@ const SnakeChunk = styled.div.attrs((props) => ({
   position: absolute;
   width: ${(props) => `${props.$cellSize}px`};
   height: ${(props) => `${props.$cellSize}px`};
+  z-index: ${(props) => (props.$isDead ? '-1' : '0')};
+  animation: ${(props) => (props.$isDead ? deadAnims : '')};
 `;
 
 const SnakeHead = styled(SnakeChunk)`
@@ -40,27 +60,28 @@ export default function Snake({ cellSize, player }) {
 
   return (
     <>
-      {isAlive &&
-        chunks.map((chunk, index) =>
-          chunk.x === headX && chunk.y === headY ? (
-            <SnakeHead
-              key={index}
-              $cellSize={cellSize}
-              $x={chunk.x}
-              $y={chunk.y}
-              $dir={dir}
-              $color={colors[Math.floor((colors.length - 1) * Math.random())]}
-            />
-          ) : (
-            <SnakeChunk
-              key={index}
-              $cellSize={cellSize}
-              $x={chunk.x}
-              $y={chunk.y}
-              $color={colors[Math.floor((colors.length - 1) * Math.random())]}
-            />
-          ),
-        )}
+      {chunks.map((chunk, index) =>
+        chunk.x === headX && chunk.y === headY ? (
+          <SnakeHead
+            key={index}
+            $cellSize={cellSize}
+            $x={chunk.x}
+            $y={chunk.y}
+            $dir={dir}
+            $color={colors[Math.floor((colors.length - 1) * Math.random())]}
+            $isDead={!isAlive && index === chunks.length - 1}
+          />
+        ) : (
+          <SnakeChunk
+            key={index}
+            $cellSize={cellSize}
+            $x={chunk.x}
+            $y={chunk.y}
+            $color={colors[Math.floor((colors.length - 1) * Math.random())]}
+            $isDead={!isAlive && index === chunks.length - 1}
+          />
+        ),
+      )}
     </>
   );
 }
