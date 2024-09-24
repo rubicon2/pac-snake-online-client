@@ -11,6 +11,7 @@ const Overlay = styled.div`
   text-shadow: 1px 1px 10px black;
   /* Stop user selecting any child text. */
   user-select: none;
+  overflow: hidden;
 `;
 
 export default function GameOverlay({ children }) {
