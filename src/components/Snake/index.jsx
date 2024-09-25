@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 const DeadAnim = keyframes`
-  0% { opacity: 1; }
   10% { background-color: red; }
   30% { background-color: orangered; }
   40% { background-color: white; }
   50% { background-color: darkblue; }
-  100% { opacity: 0; }
 `;
 
 const VibrateAnim = keyframes`
@@ -16,8 +14,15 @@ const VibrateAnim = keyframes`
   to { scale: 1.1; }
 `;
 
+const FadeAnim = keyframes`
+  from { opacity: 1; }
+  to { opacity: 0 };
+`;
+
 const deadAnims = (props) => css`
-  ${DeadAnim} 500ms linear infinite, ${VibrateAnim} 40ms infinite alternate;
+  ${DeadAnim} 500ms ${props.$animDelay} linear infinite,
+  ${VibrateAnim} 40ms ${props.$animDelay} infinite alternate,
+  ${FadeAnim} 1s ${props.$animDelay} linear 1 forwards;
 `;
 
 const SnakeChunk = styled.div.attrs((props) => ({
@@ -69,7 +74,8 @@ export default function Snake({ cellSize, player }) {
             $y={chunk.y}
             $dir={dir}
             $color={colors[Math.floor((colors.length - 1) * Math.random())]}
-            $isDead={!isAlive && index === chunks.length - 1}
+            $isDead={!isAlive}
+            $animDelay={`${index * 300}ms`}
           />
         ) : (
           <SnakeChunk
@@ -78,7 +84,8 @@ export default function Snake({ cellSize, player }) {
             $x={chunk.x}
             $y={chunk.y}
             $color={colors[Math.floor((colors.length - 1) * Math.random())]}
-            $isDead={!isAlive && index === chunks.length - 1}
+            $isDead={!isAlive}
+            $animDelay={`${index * 300}ms`}
           />
         ),
       )}
