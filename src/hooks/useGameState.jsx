@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 export default function useGameState(socket) {
   const [gameState, setGameState] = useState(null);
 
+  function updateGameState(data) {
+    setGameState(data);
+  }
+
   // Want this to only run if the socket has changed.
   useEffect(() => {
     if (socket) {
-      function updateGameState(updates) {
-        setGameState(updates);
-      }
-
       socket.on('game_started', updateGameState);
       socket.on('game_round_started', updateGameState);
       socket.on('game_round_countdown_started', updateGameState);
