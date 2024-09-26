@@ -86,13 +86,17 @@ export default function GameScreen() {
             y={foodPickup.y}
           />
         ))}
-        {Object.values(gameState.players).map((player, index) => (
+        {players.map((player, index) => (
           <Snake key={index} cellSize={CELL_SIZE} player={player} />
         ))}
         {gameState.state === 'countdown' && (
           <GameOverlay>
             <GameOverlayHeading key={gameState.countdownValue}>
-              {gameState.countdownValue}
+              {gameState.countdownValue <= 0
+                ? 'GO!'
+                : gameState.countdownValue > 3
+                  ? ''
+                  : Math.min(gameState.countdownValue, 3)}
             </GameOverlayHeading>
           </GameOverlay>
         )}
