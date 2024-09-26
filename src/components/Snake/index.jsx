@@ -1,3 +1,8 @@
+import head_01 from '/head_1.png';
+import head_02 from '/head_2.png';
+import head_03 from '/head_3.png';
+import head_04 from '/head_4.png';
+
 import { RGBAToString, generateRandomisedRGBAStrings } from '../../rgba';
 import { useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
@@ -41,7 +46,7 @@ const SnakeChunk = styled.div.attrs((props) => ({
 
 const SnakeHead = styled(SnakeChunk)`
   image-rendering: pixelated;
-  background-image: url('/head_1.png');
+  background-image: ${(props) => `url(${props.$headImg})`};
   background-size: cover;
   transform: ${(props) =>
     props.$dir === 'up'
@@ -53,9 +58,11 @@ const SnakeHead = styled(SnakeChunk)`
           : 'rotate(270deg)'};
 `;
 
+const snakeHeads = [head_01, head_02, head_03, head_04];
+
 export default function Snake({ cellSize, player }) {
   const [colors, setColors] = useState([]);
-  const { color, snake } = player;
+  const { color, snake, img } = player;
   const { headX, headY, dir, isAlive, chunks } = snake;
 
   // Generate colors only when the color changes, i.e. when a game starts.
@@ -74,6 +81,7 @@ export default function Snake({ cellSize, player }) {
             $y={chunk.y}
             $dir={dir}
             $color={colors[Math.floor((colors.length - 1) * Math.random())]}
+            $headImg={snakeHeads[img]}
             $isDead={!isAlive}
             $animDelay={`${index * 300}ms`}
           />

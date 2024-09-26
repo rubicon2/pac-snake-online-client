@@ -68,6 +68,33 @@ export default function GameScreen() {
     return () => removeEventListener('keydown', handleInput);
   }, [socket]);
 
+  let players = [];
+  if (gameState) {
+    players = Object.values(gameState.players).sort(
+      (a, b) => a.snake.chunks.length < b.snake.chunks.length,
+    );
+
+    // DOESN'T WORK PROPERLY ON CHROME FOR SOME REASON.
+    let lastPlayer = null;
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i];
+      if (lastPlayer) {
+        if (player.snake.chunks.length < lastPlayer.snake.chunks.length) {
+          // If this player is shorter than the last, they will have the next lower level of snake face.
+          player.img = lastPlayer.img + 1;
+        } else {
+          // Otherwise they will have the same snake face - they are the same length.
+          player.img = lastPlayer.img;
+        }
+      } else {
+        // If there is no lastPlayer, this must be the first one.
+        // As we sorted them by snake length before this process, it will be the longest.
+        players[i].img = 0;
+      }
+      lastPlayer = player;
+    }
+  }
+
   return gameState === null ? (
     <Container>
       <GameArea $cellSize={CELL_SIZE} $gridSize={10} />
