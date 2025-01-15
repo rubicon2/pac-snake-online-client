@@ -13,7 +13,7 @@ function App() {
   // A socket is created here and passed down via context, as we want one socket for the whole application.
   // If we called useSocket everywhere we wanted to use a socket, we would end up creating a whole bunch of sockets.
   // const socket = useSocket('http://localhost:25565');
-  const socket = useSocket('https://pac-snake-online.adaptable.app:443');
+  const socket = useSocket('https://pac-snake-online-server-production.up.railway.app:443');
   const uuid = useUUID(socket);
   const clientMetadata = useClientMetadata(socket, uuid);
 
